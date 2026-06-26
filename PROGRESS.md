@@ -1,6 +1,6 @@
 # CatalogIQ — İlerleme
 
-_Son güncelleme: 2026-06-26_
+_Son güncelleme: 2026-06-27_
 
 ## Özet
 
@@ -30,6 +30,8 @@ _Son güncelleme: 2026-06-26_
 | Sprint 35 | 2026-06-24 | Akıllı Yeniden Tarama (RecrawlAfter, NightlyRecrawlService) |
 | Sprint 36 | 2026-06-25 | Integration pipeline fix: DeadLetter, orphan recovery, EF fix |
 | Sprint 37 | 2026-06-26 | Sistem sürekliliği: Windows Services, Watchdog, docker restart |
+| Sprint 38 | 2026-06-26 | Fiyat filtresi (≤/≥/=/↔), entegrasyon job reboot kurtarma fix |
+| Sprint 39 | 2026-06-27 | Polly 8.4.2 HTTP retry (5x), consumer yeniden kuyruk mantığı kaldırıldı |
 
 ## Güncel Durum
 

@@ -40,6 +40,16 @@
 
 ---
 
+## Polly Retry: Consumer Seviyesinde Yeniden Kuyruk Kaldırıldı
+
+**Karar:** IntegrationEngine'de Polly 8.4.2 ile 5 HTTP retry eklendi; IntegrateProductConsumer'da consumer-seviye yeniden kuyruk mantığı kaldırıldı.
+
+**Neden:** Önceki tasarımda transient HTTP hatalarında consumer job'ı `Queued`'a geri çekiyor, `FailedIntegrationRetryService` yeniden publish ediyordu. Bu; birden fazla deneme arasındaki bekleme sürelerini kontrolsüz kılıyor, stuck job riski yaratıyor ve başarısız job'ların aktif kuyrukta kalmasına yol açıyordu. Polly ile HTTP retry'lar tek bir consumer çağrısı içinde yönetilir; başarısız sonuç `Failed` olarak işaretlenir ve job aktif kuyruktan kalıcı olarak çıkar.
+
+**Sınır:** 4xx yanıtları retry yapılmaz (kalıcı hata). Webhook'ta `HttpRequestMessage` her retry denemesinde yeniden oluşturulur.
+
+---
+
 ## RecrawlAfter: Gece 01:00 UTC
 
 **Karar:** Yeni normalize edilen ürünler bugün veya yarın 01:00 UTC'ye kadar "fresh" sayılır.

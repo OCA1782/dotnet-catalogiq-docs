@@ -1,5 +1,31 @@
 # CatalogIQ — Değişiklik Günlüğü
 
+## [Sprint 39] — 2026-06-27
+
+### Eklendi
+- `Polly 8.4.2` — `CatalogIQ.Integration.csproj`'a bağımlılık olarak eklendi
+- `IntegrationEngine._httpRetryPipeline`: `ResiliencePipeline<HttpResponseMessage>` — 5 retry, üstel backoff (2s→4s→8s→16s→32s + jitter), yalnızca `HttpRequestException` + HTTP 5xx
+
+### Değiştirildi
+- `IntegrationEngine.SendRestApiAsync`: HTTP çağrısı `_httpRetryPipeline.ExecuteAsync` içine alındı
+- `IntegrationEngine.SendWebhookAsync`: Her retry denemesinde `HttpRequestMessage` yeniden oluşturulur; pipeline içine alındı
+- `IntegrateProductConsumer`: Transient hata yeniden kuyruk mantığı (`Queued`/`DeadLetter` geçişi) kaldırıldı; artık her başarısız job `Failed` olarak işaretleniyor (aktif kuyruktan çıkar)
+
+---
+
+## [Sprint 38] — 2026-06-26
+
+### Eklendi
+- `GET /api/normalized-products`: `priceMin` (≥) ve `priceMax` (≤) query parametreleri
+- `api.ts`: `normalizedProducts.list()` → `priceMin` / `priceMax` parametreleri
+- Normalize Ürünler sayfası — Fiyat Filtresi UI: mod seçici (≤ En Fazla / ≥ En Az / = Tam Fiyat / ↔ Aralık), aralık modunda iki input
+
+### Düzeltildi
+- `FailedIntegrationRetryService`: `staleRetried` sorgusu — reboot sonrası kaybolan RabbitMQ retry mesajları artık kurtarılıyor
+- `IntegrateProductConsumer`: Transient retry yolunda `StartedAt = null` set edildi
+
+---
+
 ## [Sprint 37] — 2026-06-26
 
 ### Eklendi
