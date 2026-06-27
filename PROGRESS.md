@@ -1,6 +1,6 @@
 # CatalogIQ — İlerleme
 
-_Son güncelleme: 2026-06-27_
+_Son güncelleme: 2026-06-27 (Adım 67)_
 
 ## Özet
 
@@ -35,7 +35,7 @@ _Son güncelleme: 2026-06-27_
 
 ## Güncel Durum
 
-- **Normalize Ürün:** 20.067+ (onlineyedekparca.com + ankpar.com)
+- **Normalize Ürün:** 100.815 (onlineyedekparca.com + ankpar.com), avgQuality: 0.96
 - **API:** http://localhost:5163 — Windows Service olarak çalışıyor
 - **Workers:** Windows Service olarak çalışıyor (Session 0)
 - **Frontend:** http://localhost:3003
