@@ -1,5 +1,26 @@
 # CatalogIQ — Değişiklik Günlüğü
 
+## [Sprint 40] — 2026-06-29
+
+### Düzeltildi (3 kritik bug)
+- **`ExtractImagesFromJsonLd()`**: `OfType<JsonValue>()` → `.Select()` ile hem string hem `ImageObject` (`{url/contentUrl:...}`) handle edildi — Boyner gibi JSON-LD'de `[{@type:ImageObject}]` kullanan siteler artık görsel topluyor
+- **`GenericRules`/`ShopifyRules`**: `"image"` (tekil) → `"images"` (çoğul) rename; `ApplyRules()` uyumlu hale getirildi, seçiciler çoğaltıldı
+- **Image HTML fallback**: JSON-LD/rules başarılı ama images boş ise `CollectImages()` (og:image + HTML selectors) devreye giriyor
+- **CS8625 nullable uyarıları**: `GetMeta()`, `GetMicrodata()` null-safe; 13 → 7 warning
+
+### Eklendi
+- **`POST /api/source-sites/{id}/fix-missing-images`**: ImageUrls boş ürün tespiti, RecrawlAfter sıfırlama (freshness bypass), kuyruğa alma; `{found, queued, message}` dönüşü
+- **`LazyLoadAttrs`**: `data-image-src`, `data-zoom-src`, `data-large`, `data-hi-res`, `data-srcset`
+- **`CollectImages()` XPath**: `picture//img`, gallery/slider/swiper/carousel, product-image/product-photo/product-media div'leri
+- **`UrlClassifier`**: `SitemapPattern` subdomain desteği (`//sitemap.`); `ProductSuffixPattern` `-p-12345` (Boyner/Trendyol URL formatı)
+
+### Operasyonel
+- Boyner site: `ProfileType` WooCommerce → Generic; `ExtractionPriority` HttpFirst → PlaywrightFirst
+- 918 Boyner ürünü `fix-missing-images` ile yeniden extraction kuyruğuna alındı
+- `CatalogIQ.Api` Windows Service `ImagePath` güncellendi: `dotnet.exe CatalogIQ.Api.dll` (framework aphost sorunu kalıcı çözüldü)
+
+---
+
 ## [Sprint 39] — 2026-06-27
 
 ### Eklendi
