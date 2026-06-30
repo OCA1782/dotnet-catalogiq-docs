@@ -1,5 +1,25 @@
 # CatalogIQ — Değişiklik Günlüğü
 
+## [Sprint 44] — 2026-07-01
+
+### Eklendi
+- **`StalledDiscoveryRetryService`** (Sprint 43): Her 5 dk'da Queued (mesaj kaybolmuş) ve Running-takılı DiscoveryJob'ları tespit eder; `DiscoverUrlCommand` yeniden yayınlar; `AttemptCount >= 3` olanları otomatik Failed'a çeker
+- **`DiscoverUrlConsumer` idempotency guard**: Completed/Cancelled/Failed statüsündeki job için gelen duplicate mesaj sessizce atlanır
+- **`POST /api/source-requests/recover-stalled`**: Admin endpoint — 10 dk'dan uzun Queued kalan job'ları kurtarır (manuel tetikleme)
+- **Workers rolling dosya loglama**: `Serilog.Sinks.File` sink eklendi → `logs/workers-{tarih}.log` (14 gün tutulur)
+
+### Değiştirildi
+- **`CatalogIQ.Workers` Windows Service**: `DEMAND_START` → `DELAYED AUTO_START`; `FAILURE_ACTIONS_ON_NONCRASH_FAILURES=TRUE` (exit code 0'da da recovery tetiklenir)
+- **`CatalogIQ.Api` Windows Service**: `DEMAND_START` → `DELAYED AUTO_START`; `FAILURE_ACTIONS_ON_NONCRASH_FAILURES=TRUE`
+- **`scripts/watchdog.ps1`**: RabbitMQ yönetim API kontrolü eklendi (`http://localhost:15672/api/connections`) — 0 bağlantı tespitinde `docker restart catalogiq-rabbitmq`; Docker NAT kırılması artık otomatik çözülür
+- **Task Scheduler watchdog görevi**: `SYSTEM` → `fpen` Interactive (Docker erişimi için); `StopAtDurationEnd=false`; 3 tetikleyici (5dk/boot/login); `DisallowStartIfOnBatteries=false`
+
+### Kök Neden (Düzeltilen)
+- Docker Desktop NAT bug (Windows): TCP handshake tamamlanıyor ama AMQP handshake başlamıyor → `SocketException 10053` — container `healthy` görünse de AMQP bağlantısı sıfıra düşüyor. Önceki watchdog yalnızca container health kontrolü yapıyordu, bağlantı sayısı kontrolü yoktu.
+- Watchdog SYSTEM olarak çalışıyordu → Docker pipe erişimi yok → görev sessizce başarısız oluyordu, log yazılmıyordu.
+
+---
+
 ## [Sprint 42] — 2026-06-30
 
 ### Eklendi

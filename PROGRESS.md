@@ -1,6 +1,6 @@
 # CatalogIQ — İlerleme
 
-_Son güncelleme: 2026-06-30 (Adım 70)_
+_Son güncelleme: 2026-07-01 (Adım 72)_
 
 ## Özet
 
@@ -35,15 +35,18 @@ _Son güncelleme: 2026-06-30 (Adım 70)_
 | Sprint 40 | 2026-06-29 | Boyner görsel fix: ExtractionEngine 3 bug, fix-missing-images endpoint |
 | Sprint 41 | 2026-06-30 | Mükerrer ürün tespiti ve temizleme (içerik bazında duplikat) |
 | Sprint 42 | 2026-06-30 | Toplu yeniden başlatma (Crawler İstekler) + DB unique index + race condition fix |
+| Sprint 43 | 2026-07-01 | Stalled Discovery kurtarma (StalledDiscoveryRetryService + idempotency guard) |
+| Sprint 44 | 2026-07-01 | Windows Servis sağlık denetimi: auto-start, watchdog Docker NAT fix, file logging |
 
 ## Güncel Durum
 
 - **Normalize Ürün:** 100.743 (onlineyedekparca.com + boyner.com.tr), avgQuality: 0.95 (DB unique index ile duplikat önlendi)
-- **API:** http://localhost:5163 — Windows Service olarak çalışıyor (`dotnet.exe` ile)
-- **Workers:** Windows Service olarak çalışıyor (Session 0)
+- **API:** http://localhost:5163 — Windows Service, `DELAYED AUTO_START`, `FAILURE_ACTIONS_ON_NONCRASH_FAILURES=TRUE`
+- **Workers:** Windows Service, `DELAYED AUTO_START`, rolling log `logs/workers-{date}.log`
 - **Frontend:** http://localhost:3003
 - **Docker:** postgres/rabbitmq/redis — `restart: unless-stopped`
 - **DB:** `IX_NormalizedProducts_TenantId_SourceSiteId_CanonicalUrl` UNIQUE partial index aktif
+- **Watchdog:** Her 5 dk — RabbitMQ AMQP bağlantı sayısı kontrolü + Docker NAT otomatik kurtarma
 
 ## Test Siteleri
 
