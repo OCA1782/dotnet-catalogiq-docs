@@ -1,5 +1,21 @@
 # CatalogIQ — Değişiklik Günlüğü
 
+## [Sprint 41] — 2026-06-30
+
+### Eklendi
+- **`GET /api/normalized-products/quality-summary`**: `contentDuplicateCount` ve `contentDuplicateExtraCount` alanları — aynı site içinde başlık+açıklama+fiyat+stok birebir aynı olan grup sayısı ve ekstra kayıt sayısı
+- **`GET /api/normalized-products`**: `contentDuplicatesOnly=true` query parametresi — içerik duplikatı olan ürünleri filtreler (raw SQL, EXISTS subquery)
+- **`POST /api/normalized-products/remove-content-duplicates`**: PostgreSQL `DISTINCT ON` ile her gruptan en yüksek kalite skoru korunur, diğerleri soft-delete edilir
+- **Normalize Ürünler — "Mükerrer" kart**: Quality özet kartlarına 5. kart olarak eklendi; duplikat grup sayısını ve ekstra kayıt sayısını gösterir; tıklandığında filtre uygulanır
+- **Normalize Ürünler — "Mükerrer" chip**: Eksik Alan bölümüne filtre chip eklendi
+- **Normalize Ürünler — "Mükerrerleri Temizle" butonu**: Onay modalı ile duplikatları temizler
+
+### Operasyonel
+- 72 duplikat kayıt (`onlineyedekparca.com` — farklı URL varyantları: `/urun/xx` vs `/urun/xx-1`) temizlendi
+- Normalize ürün sayısı: 101.815 → 100.743
+
+---
+
 ## [Sprint 40] — 2026-06-29
 
 ### Düzeltildi (3 kritik bug)

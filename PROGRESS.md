@@ -1,6 +1,6 @@
 # CatalogIQ — İlerleme
 
-_Son güncelleme: 2026-06-29 (Adım 68)_
+_Son güncelleme: 2026-06-30 (Adım 69)_
 
 ## Özet
 
@@ -33,10 +33,11 @@ _Son güncelleme: 2026-06-29 (Adım 68)_
 | Sprint 38 | 2026-06-26 | Fiyat filtresi (≤/≥/=/↔), entegrasyon job reboot kurtarma fix |
 | Sprint 39 | 2026-06-27 | Polly 8.4.2 HTTP retry (5x), consumer yeniden kuyruk mantığı kaldırıldı |
 | Sprint 40 | 2026-06-29 | Boyner görsel fix: ExtractionEngine 3 bug, fix-missing-images endpoint |
+| Sprint 41 | 2026-06-30 | Mükerrer ürün tespiti ve temizleme (içerik bazında duplikat) |
 
 ## Güncel Durum
 
-- **Normalize Ürün:** 101.815 (onlineyedekparca.com + boyner.com.tr), avgQuality: 0.95
+- **Normalize Ürün:** 100.743 (onlineyedekparca.com + boyner.com.tr), avgQuality: 0.95 (72 duplikat temizlendi)
 - **API:** http://localhost:5163 — Windows Service olarak çalışıyor (`dotnet.exe` ile)
 - **Workers:** Windows Service olarak çalışıyor (Session 0)
 - **Frontend:** http://localhost:3003
