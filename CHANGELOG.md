@@ -1,5 +1,20 @@
 # CatalogIQ — Değişiklik Günlüğü
 
+## [Sprint 42] — 2026-06-30
+
+### Eklendi
+- **`POST /api/source-requests/bulk-restart`**: Seçili Failed/Completed/Cancelled statüsündeki istekleri toplu yeniden başlatır; her istek için yeni DiscoveryJob oluşturulur ve DiscoverUrlCommand yayınlanır; `{ restarted, skipped }` dönüşü
+- **Frontend `api.ts`**: `sourceRequests.bulkRestart(ids)` metodu eklendi
+- **Crawler İstekler ekranı**: `handleBulkRestart()` fonksiyonu ve "Seçilenleri Yeniden Başlat" butonu (yeşil, RotateCcw ikonu) bulk action bar'a eklendi
+- **`NormalizedProductConfiguration.cs`**: `(TenantId, SourceSiteId, CanonicalUrl)` unique partial index — `WHERE CanonicalUrl IS NOT NULL AND IsDeleted = false`
+- **EF Migration `20260630171712_AddNormalizedProductCanonicalUrlUniqueIndex`**: index oluşturuldu ve uygulandı
+
+### Değiştirildi
+- **`NormalizeProductConsumer.cs`**: Mevcut kayıt sorgusu `.IgnoreQueryFilters()` ile güncellendi — soft-deleted ürünler de CanonicalUrl bazında bulunur ve güncellenir
+- **`NormalizeProductConsumer.cs`**: `SaveChangesAsync()` try/catch ile sarıldı; `DbUpdateException` + PostgreSQL `23505` (unique_violation) yakalanıyor — ChangeTracker temizlenir, winner bulunur, tüm alanlar uygulanır, `IsDeleted = false` set edilir (race condition kurtarma)
+
+---
+
 ## [Sprint 41] — 2026-06-30
 
 ### Eklendi

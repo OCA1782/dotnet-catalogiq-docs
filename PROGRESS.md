@@ -1,6 +1,6 @@
 # CatalogIQ — İlerleme
 
-_Son güncelleme: 2026-06-30 (Adım 69)_
+_Son güncelleme: 2026-06-30 (Adım 70)_
 
 ## Özet
 
@@ -34,15 +34,16 @@ _Son güncelleme: 2026-06-30 (Adım 69)_
 | Sprint 39 | 2026-06-27 | Polly 8.4.2 HTTP retry (5x), consumer yeniden kuyruk mantığı kaldırıldı |
 | Sprint 40 | 2026-06-29 | Boyner görsel fix: ExtractionEngine 3 bug, fix-missing-images endpoint |
 | Sprint 41 | 2026-06-30 | Mükerrer ürün tespiti ve temizleme (içerik bazında duplikat) |
+| Sprint 42 | 2026-06-30 | Toplu yeniden başlatma (Crawler İstekler) + DB unique index + race condition fix |
 
 ## Güncel Durum
 
-- **Normalize Ürün:** 100.743 (onlineyedekparca.com + boyner.com.tr), avgQuality: 0.95 (72 duplikat temizlendi)
+- **Normalize Ürün:** 100.743 (onlineyedekparca.com + boyner.com.tr), avgQuality: 0.95 (DB unique index ile duplikat önlendi)
 - **API:** http://localhost:5163 — Windows Service olarak çalışıyor (`dotnet.exe` ile)
 - **Workers:** Windows Service olarak çalışıyor (Session 0)
 - **Frontend:** http://localhost:3003
 - **Docker:** postgres/rabbitmq/redis — `restart: unless-stopped`
-- **Boyner:** 918 ürün görsel fix kuyruğunda (PlaywrightFirst ile işleniyor)
+- **DB:** `IX_NormalizedProducts_TenantId_SourceSiteId_CanonicalUrl` UNIQUE partial index aktif
 
 ## Test Siteleri
 
